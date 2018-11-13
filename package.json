@@ -1,6 +1,6 @@
 {
   "name": "sol-profiler",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "This is a solidity contract profiler",
   "main": "index.js",
   "scripts": {
