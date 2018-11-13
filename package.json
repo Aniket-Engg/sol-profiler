@@ -1,0 +1,27 @@
+{
+  "name": "sol-profiler",
+  "version": "1.0.0",
+  "description": "This is a solidity contract profiler",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aniket-Engg/sol-profiler.git"
+  },
+  "keywords": [
+    "solidity"
+  ],
+  "author": "Aniket",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Aniket-Engg/sol-profiler/issues"
+  },
+  "homepage": "https://github.com/Aniket-Engg/sol-profiler#readme",
+  "dependencies": {
+    "ascii-table": "0.0.9",
+    "fs": "0.0.1-security",
+    "solparse": "^2.2.5"
+  }
+}
