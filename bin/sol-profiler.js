@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const parser    = require("solparse");
 const asciiTable= require('ascii-table');
 const fs        = require('fs');
