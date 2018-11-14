@@ -22,7 +22,7 @@ This does not work on imported files. You can use the available npm packages to 
 ## Example
 We have attached an extensive example i.e. [sample.sol](https://github.com/Aniket-Engg/sol-profiler/blob/master/example/sample.sol). For this, profiler result will be same as in below image : 
 
-![profiler](https://user-images.githubusercontent.com/30843294/48478720-11858180-e82b-11e8-8af2-d7945176787b.png)
+![profiler2](https://user-images.githubusercontent.com/30843294/48480363-1d277700-e830-11e8-90fb-570f9479d104.png)
 
 ## Contribution/Suggestions
 Any kind of suggestions or contribution are most welcome!
