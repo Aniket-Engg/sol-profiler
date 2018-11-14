@@ -1,54 +1,101 @@
 #!/usr/bin/env node
 
 const parser    = require("solparse");
-const asciiTable= require('ascii-table');
 const fs        = require('fs');
+const clc       = require("cli-color");
+const table     = require('table');
+
+let config  = {
+    border: {
+        topBody: `─`,
+        topJoin: `┬`,
+        topLeft: `┌`,
+        topRight: `┐`,
+ 
+        bottomBody: `─`,
+        bottomJoin: `┴`,
+        bottomLeft: `└`,
+        bottomRight: `┘`,
+ 
+        bodyLeft: `│`,
+        bodyRight: `│`,
+        bodyJoin: `│`,
+ 
+        joinBody: `─`,
+        joinLeft: `├`,
+        joinRight: `┤`,
+        joinJoin: `┼`
+    }
+};
 
 if(process.argv.length < 3) {
-  console.log("Error: Missing argument for sol file to scan");
+  console.log(clc.redBright("Error: No file provided"));
   process.exit(1);
 }
 
-var filePath   = process.argv[2];
-const source = fs.readFileSync(filePath).toString();
-var parsedSource = parser.parse(source);
+let filePath   = process.argv[2];
+let source = fs.readFileSync(filePath).toString();
+let parsedSource = parser.parse(source);
 
 generateReport(filePath, parsedSource);
 
 function generateReport(path, source) {
-    var table = new asciiTable(path);
-    table.setHeading('Contract/Library', 'Function/Constructor', 'Visibility', 'View/Pure', 'Returns', 'Modifiers');
+    let tableRows = [];
+
+    // Adding filename and solidity version
+    let version;
+    if(source.body[0].type == 'PragmaStatement')
+        version = source.body[0].start_version.version;
+    
+    let fileArray = path.split('/');
+    tableRows.push(['',clc.greenBright("File: " + fileArray[fileArray.length -1] + 
+            " , Solidity Pragma: " + version), '','','','']);
+
+    // Adding header row 
+    tableRows.push([clc.whiteBright.bold('Contract/Library'), clc.whiteBright.bold('Function/Constructor'), clc.whiteBright.bold('Visibility'), clc.whiteBright.bold('View/Pure'), clc.whiteBright.bold('Returns'), clc.whiteBright.bold('Modifiers')]);
 
     source.body.forEach(function(contract) {
         if(contract.type == 'ContractStatement' || contract.type == 'LibraryStatement') {
             contract.body.forEach(function(part) {
-            if(part.type == "ConstructorDeclaration" || (part.type == "FunctionDeclaration" && part.is_abstract == false)) {
+            if(part.type == 'ConstructorDeclaration' || (part.type == 'FunctionDeclaration' && part.is_abstract == false)) {
                 let {contractName, functionName, visibility, viewOrPure, returns, modifiers} = parsePartData(contract, part);
-                table.addRow(contractName, functionName, visibility, viewOrPure, returns, modifiers);
+                tableRows.push([contractName, functionName, visibility, viewOrPure, returns, modifiers]);
             }
         })
         }
     })
-    console.log(table.toString());
+   console.log(table.table(tableRows, config));
 }
 
 function parsePartData(contract, part) {
-    let contractName = contract.name;
-    let funcName     = part.name || "";
-    let params       = [];
+    let contractName = clc.cyanBright(contract.name);
+    if(contract.type == 'LibraryStatement')
+        contractName = contractName + clc.white(' -lib');
+    
+    let funcName = null;
+    if(part.type == 'ConstructorDeclaration')
+        funcName = 'constructor';
+        else if(part.type == 'FunctionDeclaration'){
+                funcName = part.name || '';
+        }
 
+    let params = [];
     if(part.params) {
         part.params.forEach(function(param) {
-        params.push(param.literal.literal);
-    });
-    funcName += "(" + params.join(',') + ")"
-    } 
+            params.push(param.literal.literal);
+        });
+    funcName += '(' + params.join(',') + ')';
+    }
     else {
-        funcName += "()"
+        //Check fallback
+        if(!funcName && !part.name && !part.params && !part.returnParams)
+            funcName = '()' + clc.white(' -fallback');
+        else
+            funcName += '()';
     }
 
     // Default is public
-    let visibility = "public";
+    let visibility = clc.magentaBright("public");
     let  viewOrPure = '';
     let  returns    = [];
     let  custom     = [];
@@ -59,19 +106,19 @@ function parsePartData(contract, part) {
                 case "public":
                     break;
                 case "private":
-                    visibility = "private";
+                    visibility = clc.redBright("private");
                     break;
                 case "internal":
-                    visibility = "internal";
+                    visibility = clc.red("internal");
                     break;
                 case "external":
-                    visibility = "external";
+                    visibility = clc.magenta("external");
                     break;
                 case "view":
-                viewOrPure = "view";
+                    viewOrPure = clc.yellow("view");
                     break;
                 case "pure":
-                viewOrPure = "pure";
+                    viewOrPure = clc.yellowBright("pure");
                     break;
                 default:
                     custom.push(mod.name);
@@ -86,10 +133,10 @@ function parsePartData(contract, part) {
 
     return {
         contractName:   contractName,
-        functionName:   funcName,
+        functionName:   clc.blueBright(funcName),
         visibility  :   visibility,
         viewOrPure  :   viewOrPure,
-        returns     :   returns,
-        modifiers   :   custom
+        returns     :   clc.white(returns),
+        modifiers   :   clc.white(custom)
     }
 }

@@ -1,7 +1,7 @@
 {
   "name": "sol-profiler",
-  "version": "1.0.2",
-  "description": "This is a solidity contract profiler",
+  "version": "1.0.3",
+  "description": "Colourful Solidity Smart Contract Profiler",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,7 +14,12 @@
     "sol-profiler": "./bin/sol-profiler.js"
   },
   "keywords": [
-    "solidity"
+    "solidity",
+    "smartcontract",
+    "sol",
+    "profiler",
+    "solidity-profiler",
+    "sol-profiler"
   ],
   "author": "Aniket",
   "license": "MIT",
@@ -23,8 +28,9 @@
   },
   "homepage": "https://github.com/Aniket-Engg/sol-profiler#readme",
   "dependencies": {
-    "ascii-table": "0.0.9",
+    "cli-color": "^1.4.0",
     "fs": "0.0.1-security",
-    "solparse": "^2.2.5"
+    "solparse": "^2.2.5",
+    "table": "^5.1.0"
   }
 }
