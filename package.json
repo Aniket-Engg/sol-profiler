@@ -1,6 +1,6 @@
 {
   "name": "sol-profiler",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Colourful Solidity Smart Contract Profiler",
   "main": "index.js",
   "scripts": {
@@ -29,7 +29,6 @@
   "homepage": "https://github.com/Aniket-Engg/sol-profiler#readme",
   "dependencies": {
     "cli-color": "^1.4.0",
-    "fs": "0.0.1-security",
     "solparse": "^2.2.5",
     "table": "^5.1.0"
   }
