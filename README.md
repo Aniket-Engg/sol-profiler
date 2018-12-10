@@ -30,3 +30,6 @@ We have attached an extensive example i.e. [sample.sol](https://github.com/Anike
 
 ## Contribution/Suggestions
 Any kind of suggestions or contribution are most welcome!
+
+## License
+[MIT](https://github.com/Aniket-Engg/sol-profiler/blob/master/LICENSE)
