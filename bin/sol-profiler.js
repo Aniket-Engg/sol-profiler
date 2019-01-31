@@ -61,9 +61,9 @@ function generateReport(path, source) {
                 let {contractName, functionName, visibility, viewOrPure, returns, modifiers} = parsePartData(contract, part);
                 tableRows.push([contractName, functionName, visibility, viewOrPure, returns, modifiers]);
             }
-        })
+        });
         }
-    })
+    });
    console.log(table.table(tableRows, config));
 }
 
@@ -138,5 +138,5 @@ function parsePartData(contract, part) {
         viewOrPure  :   viewOrPure,
         returns     :   clc.white(returns),
         modifiers   :   clc.white(custom)
-    }
+    };
 }

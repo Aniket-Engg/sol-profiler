@@ -4,7 +4,7 @@
   "description": "Colourful Solidity Smart Contract Profiler",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jshint ./bin/sol-profiler.js"
   },
   "repository": {
     "type": "git",
@@ -31,5 +31,8 @@
     "cli-color": "^1.4.0",
     "solparse": "^2.2.8",
     "table": "^5.2.2"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.7"
   }
 }
