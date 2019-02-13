@@ -1,7 +1,8 @@
 # sol-profiler
 [![npm version](https://badge.fury.io/js/sol-profiler.svg)](https://www.npmjs.com/package/sol-profiler)
 [![Build status](https://travis-ci.com/Aniket-Engg/sol-profiler.svg?branch=master)](https://travis-ci.com/Aniket-Engg/sol-profiler)
-[![devDependency Status](https://david-dm.org/aniket-engg/sol-profiler.svg)](https://david-dm.org/aniket-engg/sol-profiler#info=dependencies)
+[![dependencies Status](https://david-dm.org/aniket-engg/sol-profiler/status.svg)](https://david-dm.org/aniket-engg/sol-profiler)
+[![devDependencies Status](https://david-dm.org/aniket-engg/sol-profiler/dev-status.svg)](https://david-dm.org/aniket-engg/sol-profiler?type=dev)
 [![npm](https://img.shields.io/npm/dt/sol-profiler.svg)](https://www.npmjs.com/package/sol-profiler)
 [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Aniket-Engg/sol-profiler)
 [![LoC](https://tokei.rs/b1/github/Aniket-Engg/sol-profiler?category=lines)](https://github.com/Aniket-Engg/sol-profiler).
