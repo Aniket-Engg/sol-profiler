@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-const parser    = require("solparse");
-const fs        = require('fs');
-const clc       = require("cli-color");
-const table     = require('table');
+const parser= require("solparse"),
+     fs     = require('fs'),
+     clc    = require("cli-color"),
+     table  = require('table'),
+     utils  = require('./../utils');
 
 let config  = {
     border: {
@@ -34,37 +35,45 @@ if(process.argv.length < 3) {
 }
 
 let filePath   = process.argv[2];
-let source = fs.readFileSync(filePath).toString();
-let parsedSource = parser.parse(source);
 
-generateReport(filePath, parsedSource);
+/* jshint ignore:start */
+async function generateReport(path){
+    try{
+        let tableRows = [];
 
-function generateReport(path, source) {
-    let tableRows = [];
+        // Adding filename and solidity version
+        let version;
 
-    // Adding filename and solidity version
-    let version;
-    if(source.body[0].type == 'PragmaStatement')
-        version = source.body[0].start_version.version;
-    
-    let fileArray = path.split('/');
-    tableRows.push(['',clc.greenBright("File: " + fileArray[fileArray.length -1] + 
-            " , Solidity Pragma: " + version), '','','','']);
+        let pragma = await utils.getPragma(path);
+        let code = await utils.processFile(path);
+        let source = parser.parse(pragma + '\n\n' + code);
+        /* jshint ignore:end */
+        if(source.body[0].type == 'PragmaStatement')
+            version = source.body[0].start_version.version;
+        
+        let fileArray = path.split('/');
+        tableRows.push(['',clc.greenBright("File: " + fileArray[fileArray.length -1] + 
+                " , Solidity Pragma: " + version), '','','','']);
 
-    // Adding header row 
-    tableRows.push([clc.whiteBright.bold('Contract/Library'), clc.whiteBright.bold('Function/Constructor'), clc.whiteBright.bold('Visibility'), clc.whiteBright.bold('View/Pure'), clc.whiteBright.bold('Returns'), clc.whiteBright.bold('Modifiers')]);
+        // Adding header row 
+        tableRows.push([clc.whiteBright.bold('Contract/Library'), clc.whiteBright.bold('Function/Constructor'), clc.whiteBright.bold('Visibility'), clc.whiteBright.bold('View/Pure'), clc.whiteBright.bold('Returns'), clc.whiteBright.bold('Modifiers')]);
 
-    source.body.forEach(function(contract) {
-        if(contract.type == 'ContractStatement' || contract.type == 'LibraryStatement') {
-            contract.body.forEach(function(part) {
-            if(part.type == 'ConstructorDeclaration' || (part.type == 'FunctionDeclaration' && part.is_abstract == false)) {
-                let {contractName, functionName, visibility, viewOrPure, returns, modifiers} = parsePartData(contract, part);
-                tableRows.push([contractName, functionName, visibility, viewOrPure, returns, modifiers]);
+        source.body.forEach(function(contract) {
+            if(contract.type == 'ContractStatement' || contract.type == 'LibraryStatement') {
+                contract.body.forEach(function(part) {
+                if(part.type == 'ConstructorDeclaration' || (part.type == 'FunctionDeclaration' && part.is_abstract == false)) {
+                    let {contractName, functionName, visibility, viewOrPure, returns, modifiers} = parsePartData(contract, part);
+                    tableRows.push([contractName, functionName, visibility, viewOrPure, returns, modifiers]);
+                }
+            });
             }
         });
-        }
-    });
-   console.log(table.table(tableRows, config));
+        /* jshint ignore:start */
+    console.log(table.table(tableRows, config)); /* jshint ignore:end */
+    }catch(error){
+        console.log(clc.red(error.message));
+    };
+
 }
 
 function parsePartData(contract, part) {
@@ -140,3 +149,5 @@ function parsePartData(contract, part) {
         modifiers   :   clc.white(custom)
     };
 }
+
+module.exports = generateReport(filePath);
