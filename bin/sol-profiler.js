@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const parser= require("solparse"),
-     fs     = require('fs'),
      clc    = require("cli-color"),
      table  = require('table'),
      utils  = require('./../utils');
@@ -52,7 +51,9 @@ async function generateReport(path){
             version = source.body[0].start_version.version;
         
         let fileArray = path.split('/');
-        tableRows.push(['',clc.greenBright("File: " + fileArray[fileArray.length -1] + 
+        let file = fileArray[fileArray.length -1];
+        let contractName = file.substr(0, file.length - 4);
+        tableRows.push(['',clc.greenBright("File: " + file + 
                 " , Solidity Pragma: " + version), '','','','']);
 
         // Adding header row 
@@ -69,7 +70,11 @@ async function generateReport(path){
             }
         });
         /* jshint ignore:start */
-    console.log(table.table(tableRows, config)); /* jshint ignore:end */
+        var tableData = table.table(tableRows, config); /* jshint ignore:end */
+        let fileData = tableData.replace(
+            /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, ''); // clearing color formatting
+        require("fs").writeFileSync(contractName + "_Profile.txt", fileData);
+        console.log(tableData); 
     }catch(error){
         console.log(clc.red(error.message));
     };
