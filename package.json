@@ -1,6 +1,6 @@
 {
   "name": "sol-profiler",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Colourful Solidity Smart Contract Profiler",
   "main": "index.js",
   "scripts": {
