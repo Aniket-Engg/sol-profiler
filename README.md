@@ -33,6 +33,9 @@ We have attached an extensive example i.e. [sample.sol](https://github.com/Anike
 
 Generated profile which get stored in `.txt` file can be seen [here](https://github.com/Aniket-Engg/sol-profiler/blob/master/example/sample_Profile.txt).
 
+## VSCode Extension
+sol-profiler is also available as [Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=Aniket-Engg.sol-profiler-vscode) which generates and stores profile of a contract opened in Editor.
+
 ## Contribution/Suggestions
 Any kind of suggestions or contribution are most welcome!
 
