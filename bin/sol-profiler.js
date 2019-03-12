@@ -96,7 +96,10 @@ function parsePartData(contract, part) {
     let params = [];
     if(part.params) {
         part.params.forEach(function(param) {
-            params.push(param.literal.literal);
+            if(param.storage_location)
+                params.push(param.literal.literal + ' ' + clc.cyan(param.storage_location));
+            else
+                params.push(param.literal.literal);
         });
     funcName += '(' + params.join(',') + ')';
     }
@@ -141,7 +144,10 @@ function parsePartData(contract, part) {
     }
     if(part.returnParams) {
         part.returnParams.params.forEach(function(param) {
-            returns.push(param.literal.literal);
+            if(param.storage_location)
+                returns.push(param.literal.literal + ' ' + clc.cyan(param.storage_location));
+            else
+                returns.push(param.literal.literal);
         });
     }
 
