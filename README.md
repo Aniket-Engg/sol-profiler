@@ -15,6 +15,10 @@ It marks the `library` contracts and `fallback` function explicitly, see [exampl
 
 <b>Note: </b>sol-profiler does not ensure/guarantee any kind of security or correctness of any smart-contract.
 
+<b>Update v1.3.0:</b>
+
+Since Solidity release 0.5.0, Explicit data location for all variables of struct, array or mapping types is now mandatory, so profile also include the data location of parameters defined explicitly. For example, see [sample profile](https://github.com/Aniket-Engg/sol-profiler/blob/master/example/ERC721Metadata_Profile.txt) with storage location specifier for [ERC721Metadata.sol](https://github.com/Aniket-Engg/sol-profiler/blob/master/example/ERC721Metadata.sol) (fetched from [openzepplin-solidity](https://github.com/OpenZeppelin/openzeppelin-solidity)).
+
 ## Install
 ```
 npm install --save-dev sol-profiler
