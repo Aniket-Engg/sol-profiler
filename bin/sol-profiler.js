@@ -46,12 +46,16 @@ async function generateReport(path){
         let code = await file.process(path);
         let source = parser.parse(pragma + '\n\n' + code);
         /* jshint ignore:end */
-        if(source.body[0].type == 'PragmaStatement')
-            version = source.body[0].start_version.version;
+        if(source.body[0].type == 'PragmaStatement'){
+            let pragmaData = source.body[0];
+            version = pragmaData.start_version.operator + pragmaData.start_version.version;
+            if(pragmaData.end_version)
+                version += pragmaData.end_version.operator + pragmaData.end_version.version;
+        }
         let fileArray = path.split('/');
         let fileName = fileArray[fileArray.length -1];
         let contractName = fileName.substr(0, fileName.length - 4);
-        tableRows.push(['',clc.greenBright("File: " + fileName + " , Solidity Pragma: " + version), '','','','']);
+        tableRows.push(['',clc.greenBright("File: " + fileName + ", Solidity Pragma: " + version), '','','','']);
 
         // Adding header row 
         tableRows.push([clc.whiteBright.bold('Contract/Library'), clc.whiteBright.bold('Function/Constructor'), clc.whiteBright.bold('Visibility'), clc.whiteBright.bold('View/Pure'), clc.whiteBright.bold('Returns'), clc.whiteBright.bold('Modifiers')]);
