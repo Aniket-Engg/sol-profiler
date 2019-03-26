@@ -1,86 +1,48 @@
 #!/usr/bin/env node
 
-const parser= require("solparse"),
-     clc    = require("cli-color"),
-     table  = require('table'),
-     {data, file, profile}  = require('./../utils');
+const clc    = require('cli-color'),
+     fs    = require('fs'),
+     { generateAndStore }  = require('./../lib/generate'),
+     {directory}  = require('./../utils');
 
-let config  = {
-    border: {
-        topBody: `─`,
-        topJoin: `┬`,
-        topLeft: `┌`,
-        topRight: `┐`,
- 
-        bottomBody: `─`,
-        bottomJoin: `┴`,
-        bottomLeft: `└`,
-        bottomRight: `┘`,
- 
-        bodyLeft: `│`,
-        bodyRight: `│`,
-        bodyJoin: `│`,
- 
-        joinBody: `─`,
-        joinLeft: `├`,
-        joinRight: `┤`,
-        joinJoin: `┼`
-    }
-};
+
 
 if(process.argv.length < 3) {
-  console.log(clc.redBright("Error: No file provided"));
+  console.log(clc.redBright("Error: No file or directory provided"));
   process.exit(1);
 }
 
-let filePath   = process.argv[2];
+let path = process.argv[2];
 
-/* jshint ignore:start */
-async function generateReport(path){
+var profiler = async (path) => {
     try{
-        let tableRows = [];
-
-        // Adding filename and solidity version
-        let version;
-        let pragma = await file.getPragma(path);
-        let code = await file.process(path);
-        let source = parser.parse(pragma + '\n\n' + code);
-        /* jshint ignore:end */
-        if(source.body[0].type == 'PragmaStatement'){
-            let pragmaData = source.body[0];
-            version = pragmaData.start_version.operator + pragmaData.start_version.version;
-            if(pragmaData.end_version)
-                version += pragmaData.end_version.operator + pragmaData.end_version.version;
-        }
-        let fileArray = path.split('/');
-        let fileName = fileArray[fileArray.length -1];
-        let contractName = fileName.substr(0, fileName.length - 4);
-        tableRows.push(['',clc.greenBright("File: " + fileName + ", Solidity Pragma: " + version), '','','','']);
-
-        // Adding header row 
-        tableRows.push([clc.whiteBright.bold('Contract/Library'), clc.whiteBright.bold('Function/Constructor'), clc.whiteBright.bold('Visibility'), clc.whiteBright.bold('View/Pure'), clc.whiteBright.bold('Returns'), clc.whiteBright.bold('Modifiers')]);
-        source.body.forEach(function(contract) {
-            if(contract.type == 'ContractStatement' || contract.type == 'LibraryStatement') {
-                contract.body.forEach(function(part) {
-                if(part.type == 'ConstructorDeclaration' || (part.type == 'FunctionDeclaration' && part.is_abstract == false)) {
-                    let {contractName, functionName, visibility, viewOrPure, returns, modifiers} = data.parseData(contract, part);
-                    tableRows.push([contractName, functionName, visibility, viewOrPure, returns, modifiers]);
+        if(fs.lstatSync(path).isDirectory()){
+            let count = 0;
+            let files = directory.getAllfiles(path);
+            for(const file of files){
+                if(file.substr(-4) == '.sol'){
+                    await generateAndStore(file);
+                    count++;
                 }
-            });
             }
-        });
-        /* jshint ignore:start */
-        var tableData = table.table(tableRows, config); /* jshint ignore:end */
-
-        // Store profile in profiles folder
-        profile.store(tableData, contractName);
-        
-        //Render profile on console
-        console.log(tableData);
+            if(count)
+                console.log(clc.green('Info: Found '+ count + ' Solidity files!!! Generated profiles stored in '+ process.cwd() + '/profiles'))
+            else
+                console.log(clc.green('Info: No Solidity files found in directory'))
+        }
+        else{
+            if(path.substr(-4) == '.sol'){
+                let tableData = await generateAndStore(path);
+                //Render profile on console
+                console.log(tableData);
+            }
+            else
+                console.warn(clc.yellow('Warning: Please provide a solidity file'))
+        }
     }catch(error){
-        console.log(clc.red(error.message));
+        console.error(clc.redBright('Error in generating profile: ' + error.message));
     };
-
 }
+module.exports = profiler(path);
 
-module.exports = generateReport(filePath);
+
