@@ -3,14 +3,17 @@ const clc = require("cli-color");
 module.exports.parseData = (contract, part) => {
         let contractName = clc.cyanBright(contract.name);
         if(contract.type == 'LibraryStatement')
-            contractName = contractName + clc.white(' -lib');
+            contractName = contractName + clc.blackBright(' (library)');
+        else if(contract.type == 'InterfaceStatement')
+            contractName = contractName + clc.whiteBright(' (interface)');
         
         let funcName = null;
         if(part.type == 'ConstructorDeclaration')
             funcName = 'constructor';
-            else if(part.type == 'FunctionDeclaration'){
-                    funcName = part.name || '';
-            }
+        else if(part.type == 'FunctionDeclaration'){
+            funcName = part.name || '';
+            
+        }
     
         let params = [];
         if(part.params) {
@@ -29,6 +32,9 @@ module.exports.parseData = (contract, part) => {
             else
                 funcName += '()';
         }
+
+        if(part.is_abstract)
+                funcName += clc.green(' -abstract');
     
         // Default is public
         let visibility = clc.magentaBright("public");
