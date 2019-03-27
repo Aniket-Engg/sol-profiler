@@ -29,7 +29,7 @@
   "homepage": "https://github.com/Aniket-Engg/sol-profiler#readme",
   "dependencies": {
     "cli-color": "^1.4.0",
-    "solparse": "^2.2.8",
+    "solparse": "2.2.8",
     "table": "^5.2.2"
   },
   "devDependencies": {
