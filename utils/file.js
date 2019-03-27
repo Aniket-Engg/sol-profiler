@@ -8,10 +8,13 @@ var regEx = {
 
 var processedFiles = [];
 
-var processFile = async(file) => {
+var processFile = async(file, initCall = false) => {
+  try{
+    if(initCall)
+      processedFiles = [];
 
-    if (processedFiles.indexOf(file) !== -1) 
-        return;
+    if(processedFiles.indexOf(file) !== -1) 
+      return;
       
     processedFiles.push(file);
     let result = '';
@@ -26,9 +29,14 @@ var processFile = async(file) => {
     contents = contents.replace(regEx.import, '').trim();
     result += contents;
     return result;
+  }
+  catch(error){
+    throw error;
+  };
 }
 
 var processImports = async (file, content) => {
+  try{
     let group='';
     let result = [];
     regEx.import.exec(''); // Resetting state of RegEx
@@ -42,8 +50,12 @@ var processImports = async (file, content) => {
       }
     }
     return result;
-
   }
+  catch(error){
+    throw error;
+  };
+
+}
 
 var getPragma = async(path) => {
     let contents = fs.readFileSync(path, { encoding: 'utf-8' });
