@@ -1,3 +1,5 @@
+"use strict";
+
 const clc = require("cli-color");
 
 module.exports.parseData = (contract, part) => {
@@ -84,4 +86,4 @@ module.exports.parseData = (contract, part) => {
             returns     :   clc.white(returns),
             modifiers   :   clc.white(custom)
         };
-    }
+};
