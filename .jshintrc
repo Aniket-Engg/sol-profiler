@@ -1,3 +1,5 @@
 {
-    "esversion": 6
+    "esversion" : 9,
+    "strict"    : true,
+    "node"      : true
 }

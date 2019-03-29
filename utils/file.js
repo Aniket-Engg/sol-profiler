@@ -1,5 +1,7 @@
+"use strict";
+
 const path = require('path'),
-  {execSync} = require('child_process');
+  {execSync} = require('child_process'),
   fs = require('fs');
 
 var regEx = {
@@ -33,15 +35,15 @@ var processFile = async(file, initCall = false) => {
   }
   catch(error){
     throw error;
-  };
-}
+  }
+};
 
 var processImports = async (file, content) => {
   try{
     let group='';
     let result = [];
     regEx.import.exec(''); // Resetting state of RegEx
-    while (group = regEx.import.exec(content)) {
+    while (group = regEx.import.exec(content)) {  // jshint ignore:line
       let _importFile = group[1];
       let filePath = path.join(path.dirname(file), _importFile);
       if(!fs.existsSync(filePath)){
@@ -58,15 +60,14 @@ var processImports = async (file, content) => {
   }
   catch(error){
     throw error;
-  };
-
-}
+  }
+};
 
 var getPragma = async(path) => {
     let contents = fs.readFileSync(path, { encoding: 'utf-8' });
     let group = regEx.pragma.exec(contents);
     return group && group[1];
-}
+};
 
 module.exports.process = processFile;
 module.exports.getPragma = getPragma;

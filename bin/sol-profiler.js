@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+"use strict";
 const clc    = require('cli-color'),
      fs    = require('fs'),
      { generateAndStore }  = require('./../lib/generate'),
@@ -11,7 +12,6 @@ if(process.argv.length < 3) {
 }
 
 let path = process.argv[2];
-/* jshint ignore:start */
 var profiler = async(path) => {
     try{
         if(fs.lstatSync(path).isDirectory()){
@@ -40,9 +40,8 @@ var profiler = async(path) => {
         }
     }catch(error){
         console.error(clc.redBright('Error in generating profile: ' + error.message));
-    };
-}
-/* jshint ignore:end */
+    }
+};
 module.exports = profiler(path);
 
 

@@ -1,3 +1,5 @@
+"use strict";
+
 const path = require('path'),
     fs = require('fs');
 
@@ -9,4 +11,4 @@ module.exports.store = (data, contractName) => {
         /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, ''); // clearing color formatting
     
     fs.writeFileSync(path.join(process.cwd(), 'profiles', contractName + '_Profile.txt'), fileData); 
-}
+};
