@@ -5,43 +5,63 @@
 [![devDependencies Status](https://david-dm.org/aniket-engg/sol-profiler/dev-status.svg)](https://david-dm.org/aniket-engg/sol-profiler?type=dev)
 [![npm](https://img.shields.io/npm/dt/sol-profiler.svg)](https://www.npmjs.com/package/sol-profiler)
 [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Aniket-Engg/sol-profiler)
-[![LoC](https://tokei.rs/b1/github/Aniket-Engg/sol-profiler?category=lines)](https://github.com/Aniket-Engg/sol-profiler).
+[![LoC](https://tokei.rs/b1/github/Aniket-Engg/sol-profiler?category=lines)](https://github.com/Aniket-Engg/sol-profiler)
+[![Package Quality](https://npm.packagequality.com/shield/sol-profiler.svg)](https://packagequality.com/#?package=sol-profiler)
 
-Works best with solidity version >=0.4.22 !!!
-
-sol-profiler lists down the attributes of all the functions/constructor of a single `.sol` file. sol-profiler is colourful and easy to use. It displays the profile of contracts & libraries in the file along with the `pragma`. It also stores generated profile in a `.txt` file in the project folder.
-
-It marks the `library` contracts and `fallback` function explicitly, see [example](https://github.com/Aniket-Engg/sol-profiler#example).
+sol-profiler lists down the properties of all the contract methods which helps to visualize and review the definition of various contract methods involved at one glance. This is easy to use and user-friendly.
 
 <b>Note: </b>sol-profiler does not ensure/guarantee any kind of security or correctness of any smart-contract.
 
-<b>Update v1.3.0:</b>
-
-Since Solidity release 0.5.0, Explicit data location for all variables of struct, array or mapping types is now mandatory, so profile also include the data location of parameters defined explicitly. For example, see [sample profile](https://github.com/Aniket-Engg/sol-profiler/blob/master/example/ERC721Metadata_Profile.txt) with storage location specifier for [ERC721Metadata.sol](https://github.com/Aniket-Engg/sol-profiler/blob/master/example/ERC721Metadata.sol) (fetched from [openzepplin-solidity](https://github.com/OpenZeppelin/openzeppelin-solidity)).
+## Features
+* Lists down attributes of contract methods 
+* Works with file & directory both
+* Displays user friendly colourful profile on console for single file
+* Also stores generated profile in a folder names `profiles` in a `.txt` file named with suffix `_Profile`
+* Generates & stores profile for each available Solidity file if directory path is passed
+* Supports file import relatively and from `node_modules`
+* Explicitly marks `abstract` and `fallback` functions
+* Explicitly marks `library` and `interface` contracts
+* Since Solidity release 0.5.0, Explicit data location for all variables of struct, array or mapping types is now mandatory, so profile also include the data location of parameters defined explicitly.
 
 ## Install
+```
+npm install --global sol-profiler
+```
+or
 ```
 npm install --save-dev sol-profiler
 ```
 
-## Run
+## Application
+For DApp, one can provide its contract directory path and profile will be stored for each contract which can be referred in future to get the knowledge of the methods defined in various contract.
 ```
-./node_modules/.bin/sol-profiler <contract source path>
+sol-profiler <dapp/contracts/or/any/directory/path>
 ```
-sol-profiler supports import of files relative to passed file not the contracts from <i>node_modules</i> folder (like for openzepplin-solidity package). You can use the available npm packages to merge the files from <i>node_modules</i>.
 
+It can be used for individual file as:
+```
+sol-profiler <solidity/contract/file/path>
+```
+It can also be added in the `package.json` as:
+```
+{
+  "scripts": {
+    "generateProfile": "sol-profiler ./contracts/"
+  },
+}
+```
 ## Example
 We have attached an extensive example i.e. [sample.sol](https://github.com/Aniket-Engg/sol-profiler/blob/master/example/sample.sol). For this, profiler result will be same as in below image : 
 
-![profiler2](https://user-images.githubusercontent.com/30843294/48480363-1d277700-e830-11e8-90fb-570f9479d104.png)
+![solp2](https://user-images.githubusercontent.com/30843294/55281218-4bc56a80-5357-11e9-852f-520dde666b9d.png)
 
-Generated profile which get stored in `.txt` file can be seen [here](https://github.com/Aniket-Engg/sol-profiler/blob/master/example/sample_Profile.txt).
+Generated profile which get stored in `.txt` file can be seen [here](https://github.com/Aniket-Engg/sol-profiler/blob/master/profiles/sample_Profile.txt).
 
 ## VSCode Extension
-sol-profiler is also available as [Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=Aniket-Engg.sol-profiler-vscode) which generates and stores profile of a contract opened in Editor.
+sol-profiler is also available as [Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=Aniket-Engg.sol-profiler-vscode)
 
 ## Contribution/Suggestions
-Any kind of suggestions or contribution are most welcome!
+Any kind of suggestion/feedback/contribution is most welcome!
 
 ## License
 [MIT](https://github.com/Aniket-Engg/sol-profiler/blob/master/LICENSE)
