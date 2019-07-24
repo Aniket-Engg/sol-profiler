@@ -4,6 +4,7 @@
 [![dependencies Status](https://david-dm.org/aniket-engg/sol-profiler/status.svg)](https://david-dm.org/aniket-engg/sol-profiler)
 [![devDependencies Status](https://david-dm.org/aniket-engg/sol-profiler/dev-status.svg)](https://david-dm.org/aniket-engg/sol-profiler?type=dev)
 [![npm](https://img.shields.io/npm/dw/sol-profiler.svg)](https://www.npmjs.com/package/sol-profiler)
+[![npm](https://img.shields.io/npm/dt/sol-profiler.svg?label=Total%20Downloads)](https://www.npmjs.com/package/sol-profiler)
 [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Aniket-Engg/sol-profiler)
 [![LoC](https://tokei.rs/b1/github/Aniket-Engg/sol-profiler?category=lines)](https://github.com/Aniket-Engg/sol-profiler)
 [![Package Quality](https://npm.packagequality.com/shield/sol-profiler.svg)](https://packagequality.com/#?package=sol-profiler)
