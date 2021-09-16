@@ -30,7 +30,7 @@
   "dependencies": {
     "cli-color": "^2.0.0",
     "solparse": "2.2.8",
-    "table": "^5.2.2"
+    "table": "^6.0.0"
   },
   "devDependencies": {
     "jshint": "^2.10.2"
